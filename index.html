@@ -4,22 +4,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    
 </head>
 <body>
     <div id="app">
-        {{ dengF }}
+        <div v-html="html"></div>
     </div>
     <script src="./vue.js"></script>
     <script>
-
-        let vm = new Vue({
+        const vm = new Vue({
             el:"#app",
             data:{
-                dengF : ['邓哥','小刘','王小宝']
+                msg:111,
+                msg1:222,
+                html:'<span>ddddd</span>'
             }
         })
-        
+
     </script>
 </body>
 </html>
