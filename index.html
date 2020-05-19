@@ -15,46 +15,28 @@
 </head>
 <body>
     <div id="app">
-<!--        <div :[attr]="type" :b="b" :d="d"></div>-->
-<!--        <div v-bind="{name:'dff',age:18,height:'175cm'}"></div>-->
-<!--        <img :src="'https://' + imgUrl" alt="">-->
-<!--        <div :class="{red:isRed}"></div>-->
-<!--        <div :class="['red','green']"></div>-->
-<!--        <div :class="[isRed ? red : '22222',isRed ? green : '1111',yellow]"></div>-->
-<!--            <div :class="[{redClass:isRed}]"></div>-->
-<!--            <div :class="{red:isRed}" class="red"></div>-->
-<!--            <div :style="{color:'green',width:'100px',backgroundColor:'yellow'}">Dff</div>-->
-<!--            <div :style="style">dff</div>-->
-<!--            <div :style="[styleA,styleB]">dff</div>-->
-            <svg :view-box.camel="viewBox"></svg>
+        <!-- <button v-on:[event]="addCounter(111,$event)">点击+1</button> -->
+        <button @[event]="addCounter(111,$event)">点击+1</button>
+		<!-- <button v-on="{click:addCounter}">点击</button> -->
+        <p>{{ counter }}</p>
     </div>
     <script src="./vue.js"></script>
     <script>
         const vm = new Vue({
             el:"#app",
             data:{
-                viewBox:'0 0 100 10',
-                show:'',
-                type:'D',
-                attr:'a',
-                b:'bbb',
-                d:'ddd',
-                isRed : !false,
-                imgUrl:'timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1589776816851&di=fa0feee5917e38ef41ecf23bba791713&imgtype=0&src=http%3A%2F%2Fa3.att.hudong.com%2F14%2F75%2F01300000164186121366756803686.jpg',
-                red:'red',
-                green:'greenClass',
-                yellow:'yellowClass',
-                styleA:{
-                    color:'green',
-                    width:'100px',
-                    backgroundColor:'yellow'
-                },
-                styleB:{
-                    cursor:'pointer',
-                    width: '200px',
-                    transform: 'translate(90px)'
-                }
-            }
+				counter:0,
+				event:'click'
+            },
+			methods:{
+				addCounter(num,e){
+					this.counter += num;
+				},
+				a(){
+					console.log('a');
+				}
+			}
+                
         })
 
     </script>
