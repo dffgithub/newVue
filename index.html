@@ -10,15 +10,32 @@
 				height: 100px;
 				border: 10px solid #000;
 				box-sizing: border-box;
+				position: relative;
 			}
 		</style>
 	</head>
 	<body>
 		<div id="app">
-			<!-- <button v-on:[event]="addCounter(111,$event)">点击+1</button> -->
-			<button @[event]="addCounter(111,$event)">点击+1</button>
-			<!-- <button v-on="{click:addCounter}">点击</button> -->
-			<p>{{ counter }}</p>
+			<!-- <div @click="alert('div')" :style="{backgroundColor:'red'}">
+				<button type="button" @click.stop="alert('button')">1111</button>
+			</div> -->
+			<!-- <form @submit.prevent="onSubmit">
+				<input type="submit" name="" id="" value="提交" />
+			</form> -->
+			<!-- <div @click.capture="alert('div')" :style="{backgroundColor:'red'}">
+				<button type="button" @click="alert('button')">1111</button>
+			</div> -->
+			<!-- <input type="text" @keyup.enter="onSubmit"/> -->
+			<!-- <input type="text" @keyup.arrow-down="onSubmit" name="" id="" value="" /> -->
+			<!-- <input type="text" @keyup.ctrl="onSubmit" name="" id="" value="" /> -->
+			
+			
+			<!-- <div @click.ctrl.exact="onSubmit">点击</div> -->
+			<div @click.right.exact="onSubmit">点击</div>
+			
+			
+			
+			
 		</div>
 		<script src="./vue.js"></script>
 		<script>
@@ -28,14 +45,15 @@
 					counter: 0,
 					event: 'click'
 				},
-				methods: {
-					addCounter(num, e) {
-						this.counter += num;
+				methods:{
+					alert(str){
+						alert(str);
 					},
-					a() {
-						console.log('a');
+					onSubmit(){
+						console.log('onSubmit');
 					}
 				}
+			
 
 			})
 		</script>
