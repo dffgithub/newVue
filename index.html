@@ -1,44 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <style>
-        .red{
-            width: 100px;
-            height: 100px;
-            border: 10px solid #000;
-            box-sizing: border-box;
-        }
-    </style>
-</head>
-<body>
-    <div id="app">
-        <!-- <button v-on:[event]="addCounter(111,$event)">点击+1</button> -->
-        <button @[event]="addCounter(111,$event)">点击+1</button>
-		<!-- <button v-on="{click:addCounter}">点击</button> -->
-        <p>{{ counter }}</p>
-    </div>
-    <script src="./vue.js"></script>
-    <script>
-        const vm = new Vue({
-            el:"#app",
-            data:{
-				counter:0,
-				event:'click'
-            },
-			methods:{
-				addCounter(num,e){
-					this.counter += num;
-				},
-				a(){
-					console.log('a');
-				}
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Document</title>
+		<style>
+			.red {
+				width: 100px;
+				height: 100px;
+				border: 10px solid #000;
+				box-sizing: border-box;
 			}
-                
-        })
+		</style>
+	</head>
+	<body>
+		<div id="app">
+			<!-- <button v-on:[event]="addCounter(111,$event)">点击+1</button> -->
+			<button @[event]="addCounter(111,$event)">点击+1</button>
+			<!-- <button v-on="{click:addCounter}">点击</button> -->
+			<p>{{ counter }}</p>
+		</div>
+		<script src="./vue.js"></script>
+		<script>
+			const vm = new Vue({
+				el: "#app",
+				data: {
+					counter: 0,
+					event: 'click'
+				},
+				methods: {
+					addCounter(num, e) {
+						this.counter += num;
+					},
+					a() {
+						console.log('a');
+					}
+				}
 
-    </script>
-</body>
+			})
+		</script>
+	</body>
 </html>
