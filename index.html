@@ -16,25 +16,37 @@
 	</head>
 	<body>
 		<div id="app">
-			<!-- <div @click="alert('div')" :style="{backgroundColor:'red'}">
-				<button type="button" @click.stop="alert('button')">1111</button>
-			</div> -->
-			<!-- <form @submit.prevent="onSubmit">
-				<input type="submit" name="" id="" value="提交" />
-			</form> -->
-			<!-- <div @click.capture="alert('div')" :style="{backgroundColor:'red'}">
-				<button type="button" @click="alert('button')">1111</button>
-			</div> -->
-			<!-- <input type="text" @keyup.enter="onSubmit"/> -->
-			<!-- <input type="text" @keyup.arrow-down="onSubmit" name="" id="" value="" /> -->
-			<!-- <input type="text" @keyup.ctrl="onSubmit" name="" id="" value="" /> -->
-			
-			
-			<!-- <div @click.ctrl.exact="onSubmit">点击</div> -->
-			<div @click.right.exact="onSubmit">点击</div>
-			
-			
-			
+		
+			<ul>
+				<!-- <li v-for="(item,index) of data">
+					{{ item.name }}---{{ item.age }}
+				</li>
+				<li v-for="(value,key,index) of ff">
+					{{ key }} -- {{ value }} -- {{ index }}
+					
+				</li>
+				
+				<li v-for="item in 10">
+					{{ item }}
+				</li> -->
+				<!-- <template v-for="item in data">
+					<li>{{ item.name }}</li>
+					<span>{{ item.age }}</span>
+				</template> -->
+				<!-- <li v-for="(item,index) in data" :key="item.name">
+					{{ item.name }}
+					<input type="text" name="" id="" value="" />
+					<button type="button" @click="handleClick(index)">下移</button>
+				</li> -->
+				<!-- <button @click="show = !show">{{ show ? '显示' : '隐藏' }}</button>
+				<input type="text" v-if="show" key="a">
+				<input type="text" v-else key="b"> -->
+				
+				<!-- <li v-for="item in activeData">
+					{{ item.name }}
+				</li> -->
+				
+			</ul>
 			
 		</div>
 		<script src="./vue.js"></script>
@@ -42,19 +54,34 @@
 			const vm = new Vue({
 				el: "#app",
 				data: {
-					counter: 0,
-					event: 'click'
+					data:[
+						{name:'dff1',age:18,isActive:true},
+						{name:'dff2',age:19,isActive:false},
+						{name:'dff3',age:18,isActive:true},
+						{name:'dff4',age:18,isActive:false},
+ 					],
+					ff:{
+						name:'dff',
+						age:18,
+						height:'180cm'
+					},
+					show: true,
+					activeData:[],
 				},
 				methods:{
-					alert(str){
-						alert(str);
-					},
-					onSubmit(){
-						console.log('onSubmit');
+					handleClick(index){
+					   let delectItem = this.data.splice(index,1)
+					   console.log(delectItem);
+					   console.log(...delectItem);
+					   this.data.splice(index+1,0,...delectItem)
 					}
 				}
-			
+		
 
+			})
+			vm.activeData = vm.data.filter(item=>{
+				console.log(item,1111);
+				return item.isActive
 			})
 		</script>
 	</body>
