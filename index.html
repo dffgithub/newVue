@@ -4,85 +4,90 @@
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>Document</title>
-		<style>
-			.red {
-				width: 100px;
-				height: 100px;
-				border: 10px solid #000;
-				box-sizing: border-box;
-				position: relative;
-			}
-		</style>
+		<link rel="stylesheet" type="text/css" href="./index.css" />
 	</head>
 	<body>
 		<div id="app">
-		
-			<ul>
-				<!-- <li v-for="(item,index) of data">
-					{{ item.name }}---{{ item.age }}
-				</li>
-				<li v-for="(value,key,index) of ff">
-					{{ key }} -- {{ value }} -- {{ index }}
-					
-				</li>
-				
-				<li v-for="item in 10">
-					{{ item }}
-				</li> -->
-				<!-- <template v-for="item in data">
-					<li>{{ item.name }}</li>
-					<span>{{ item.age }}</span>
-				</template> -->
-				<!-- <li v-for="(item,index) in data" :key="item.name">
-					{{ item.name }}
-					<input type="text" name="" id="" value="" />
-					<button type="button" @click="handleClick(index)">下移</button>
-				</li> -->
-				<!-- <button @click="show = !show">{{ show ? '显示' : '隐藏' }}</button>
-				<input type="text" v-if="show" key="a">
-				<input type="text" v-else key="b"> -->
-				
-				<!-- <li v-for="item in activeData">
-					{{ item.name }}
-				</li> -->
-				
-			</ul>
-			
+
+			<div class="goods" v-for="(goods,goodsIndex) in goodsList" :key="goods.id">
+				<div class="title">{{ goods.title }}:</div>
+				<ul class="type-list">
+					<li class="type" :class="{
+						active: typeIndex === goods.index
+					}" 
+					@click="handleClick(typeIndex,goods,type,goodsIndex)"
+					v-for="(type,typeIndex) in goods.typeList" :key="type">
+						{{ type }}
+					</li>
+				</ul>
+			</div>
+			<div class="choose-type">
+				<div>已选条件:</div>
+				<span
+				 class="no-goods"
+				 v-if="!showFilterGoods"
+				 >暂时没有选择过滤条件</span>
+				<ul class="filter-list" v-else>
+					<li v-for="(goods,goodsKey) in filterObj">
+							{{ goods }}
+							<span class="delete-goods" @click="delectFilterGoods(goodsKey)">x</span>
+					</li>
+				</ul>
+			</div>
 		</div>
 		<script src="./vue.js"></script>
 		<script>
 			const vm = new Vue({
 				el: "#app",
 				data: {
-					data:[
-						{name:'dff1',age:18,isActive:true},
-						{name:'dff2',age:19,isActive:false},
-						{name:'dff3',age:18,isActive:true},
-						{name:'dff4',age:18,isActive:false},
- 					],
-					ff:{
-						name:'dff',
-						age:18,
-						height:'180cm'
-					},
-					show: true,
-					activeData:[],
+					goodsList: [{
+							title: '上装',
+							typeList: ['全部', '针织衫', '毛呢外套', 'T恤', '羽绒服', '棉衣', '卫衣', '风衣'],
+							id: 1,
+						},
+						{
+							title: '裤装',
+							typeList: ['全部', '牛仔裤', '小脚/铅笔裤', '休闲裤', '打底裤', '哈伦裤'],
+							id: 2,
+						},
+						{
+							title: '裙装',
+							typeList: ['全部', '连衣裙', '半身裙', '长袖连衣裙', '中长款连衣裙'],
+							id: 3,
+						}
+					],
+					filterObj:{},
+					showFilterGoods:false
+					
 				},
-				methods:{
-					handleClick(index){
-					   let delectItem = this.data.splice(index,1)
-					   console.log(delectItem);
-					   console.log(...delectItem);
-					   this.data.splice(index+1,0,...delectItem)
+				methods: {
+					//点击切换商品分类改变颜色
+					handleClick(typeIndex,goods,type,goodsIndex){
+						if(type === '全部'){
+							return
+						}
+						this.showFilterGoods = true;
+						goods.index = typeIndex;
+						vm.$set(this.filterObj,goodsIndex,type);
+						console.log(this.filterObj);
+					},
+					//删除过滤的商品
+					delectFilterGoods(goodsKey){
+						this.$delete(this.filterObj,goodsKey);
+						this.goodsList[goodsKey].index = 0;
+						this.changeShowFilter();
+					},
+					changeShowFilter(){
+						const filterObjStr = JSON.stringify(this.filterObj);
+						console.log(filterObjStr,222);
+						if(filterObjStr === '{}'){
+							this.showFilterGoods = false
+						}
 					}
 				}
-		
-
 			})
-			vm.activeData = vm.data.filter(item=>{
-				console.log(item,1111);
-				return item.isActive
-			})
+			vm.goodsList.forEach(item => vm.$set(item,'index',0))
+			console.log(vm.goodsList);
 		</script>
 	</body>
 </html>
