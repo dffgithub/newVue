@@ -9,85 +9,88 @@
 	<body>
 		<div id="app">
 
-			<div class="goods" v-for="(goods,goodsIndex) in goodsList" :key="goods.id">
-				<div class="title">{{ goods.title }}:</div>
-				<ul class="type-list">
-					<li class="type" :class="{
-						active: typeIndex === goods.index
-					}" 
-					@click="handleClick(typeIndex,goods,type,goodsIndex)"
-					v-for="(type,typeIndex) in goods.typeList" :key="type">
-						{{ type }}
+			<div class="header">
+				<div class="container">
+					<div class="logo">toDoList</div>
+					<div class="input-area">
+						<input type="text" @input="handleInput" :value="curMask">
+						<button type="button" @click="addMask">添加</button>
+					</div>
+				</div>
+			</div>
+			<div class="container">
+				<h2>
+					<span>正在进行</span>
+					<span class="mask-num"> {{ needDoList.length }}</span>
+				</h2>
+				<ul class="mask-list">
+					<li v-for="(mask,index) in needDoList" :key="mask.id">
+						<div>
+							<input type="checkbox" name="" id="" value="" @change="doCheck(index,'need')" />
+							<span>{{ mask.title }}</span>
+						</div>
+						<button @click="delDolist(index,'need')">删除</button>
 					</li>
 				</ul>
 			</div>
-			<div class="choose-type">
-				<div>已选条件:</div>
-				<span
-				 class="no-goods"
-				 v-if="!showFilterGoods"
-				 >暂时没有选择过滤条件</span>
-				<ul class="filter-list" v-else>
-					<li v-for="(goods,goodsKey) in filterObj">
-							{{ goods }}
-							<span class="delete-goods" @click="delectFilterGoods(goodsKey)">x</span>
+			<div class="container">
+				<h2>
+					<span>已经完成</span>
+					<span class="mask-num"> {{ completeList.length }}</span>
+				</h2>
+				<ul class="mask-list complete-list">
+					<li v-for="(com,index) in completeList" :key="com.id">
+						<div>
+							<input type="checkbox" name="" id="" value="" @change="doCheck(index,'com')" />
+							<span>{{ com.title }}</span>
+						</div>
+						<button @click="delDolist(index,'com')">删除</button>
 					</li>
 				</ul>
 			</div>
+
 		</div>
 		<script src="./vue.js"></script>
 		<script>
 			const vm = new Vue({
 				el: "#app",
 				data: {
-					goodsList: [{
-							title: '上装',
-							typeList: ['全部', '针织衫', '毛呢外套', 'T恤', '羽绒服', '棉衣', '卫衣', '风衣'],
-							id: 1,
-						},
-						{
-							title: '裤装',
-							typeList: ['全部', '牛仔裤', '小脚/铅笔裤', '休闲裤', '打底裤', '哈伦裤'],
-							id: 2,
-						},
-						{
-							title: '裙装',
-							typeList: ['全部', '连衣裙', '半身裙', '长袖连衣裙', '中长款连衣裙'],
-							id: 3,
-						}
-					],
-					filterObj:{},
-					showFilterGoods:false
-					
+					curMask: '', //input内的数据
+					needDoList: [],
+					completeList: [],
+
 				},
 				methods: {
-					//点击切换商品分类改变颜色
-					handleClick(typeIndex,goods,type,goodsIndex){
-						if(type === '全部'){
-							return
-						}
-						this.showFilterGoods = true;
-						goods.index = typeIndex;
-						vm.$set(this.filterObj,goodsIndex,type);
-						console.log(this.filterObj);
+					//获取input输入的内容
+					handleInput(e) {
+						this.curMask = e.target.value;
 					},
-					//删除过滤的商品
-					delectFilterGoods(goodsKey){
-						this.$delete(this.filterObj,goodsKey);
-						this.goodsList[goodsKey].index = 0;
-						this.changeShowFilter();
+					//点击添加按钮
+					addMask() {
+						if(this.curMask === ''){return}
+						this.needDoList.push({
+							title: this.curMask,
+							id: Math.random()
+						});
+						this.curMask = '';
+
 					},
-					changeShowFilter(){
-						const filterObjStr = JSON.stringify(this.filterObj);
-						console.log(filterObjStr,222);
-						if(filterObjStr === '{}'){
-							this.showFilterGoods = false
+					doCheck(index, type) {
+						if (type === 'need') {
+							const data = this.needDoList.splice(index, 1);
+							this.completeList.push(...data);
+						} else {
+							const data = this.completeList.splice(index, 1);
+							this.needDoList.push(...data);
 						}
+
+					},
+					delDolist(index, type) {
+						const toDlist = type === 'need' ? this.needDoList : this.completeList;
+						toDlist.splice(index, 1);
 					}
 				}
 			})
-			vm.goodsList.forEach(item => vm.$set(item,'index',0))
-			console.log(vm.goodsList);
 		</script>
 	</body>
 </html>
