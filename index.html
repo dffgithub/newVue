@@ -8,26 +8,16 @@
 	<body>
 		<div id="app">
 
-			<!-- <input type="text" v-model="msg">
-			<input type="checkbox" name="" id="" value="" v-model="checked" /> -->
-			<!-- <input type="checkbox" name="" id="cheng" value="cheng" v-model="checkList" />
-			<label for="cheng">cheng</label>
-			
-			<input type="checkbox" name="" id="deng" value="deng" v-model="checkList" />
-			<label for="deng">deng</label>
-			
-			<input type="checkbox" name="" id="tong" value="tong" v-model="checkList" />
-			<label for="tong">tong</label> -->
-			
-			<!-- <input type="radio" name="" id="cheng" value="cheng" v-model="picked" />
-			<label for="cheng">cheng</label>
-		
-			<input type="radio" name="" id="deng" value="deng" v-model="picked" />
-			<label for="deng">deng</label>
-			
-			<input type="radio" name="" id="tong" value="tong" v-model="picked" />
-			<label for="tong">tong</label> -->
-			<input type="text" name="" id="" value="" v-model.trim="msg" />
+			<input type="text" name="" id="" value="" v-model.number="num1" />
+			<select v-model="type">
+				<option value="+">+</option>
+				<option value="-">-</option>
+				<option value="*">*</option>
+				<option value="/">/</option>
+			</select>
+			<input type="text" name="" id="" value="" v-model.number="num2" />
+			<button @click="handleClick">=</button>
+			<span> {{ result }} </span>
 
 		</div>
 		<script src="./vue.js"></script>
@@ -35,13 +25,34 @@
 			const vm = new Vue({
 				el: "#app",
 				data: {
-					msg:'',
-					checked:true,
-					checkList:[],
-					picked : ''
+					num1: 0,
+					type: '+',
+					num2: 0,
+					result: 0
 				},
-				methods:{
-					
+				methods: {
+					handleClick() {
+						const {
+							type,
+							num1,
+							num2
+						} = this;
+						console.log(type, num1, num2, 222222);
+						switch (type) {
+							case '+':
+								this.result = num1 + num2;
+								break;
+							case '-':
+								this.result = num1 - num2;
+								break;
+							case '*':
+								this.result = num1 * num2;
+								break;
+							case '/':
+								this.result = num1 / num2;
+								break;
+						}
+					}
 				}
 			})
 		</script>
