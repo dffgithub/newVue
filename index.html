@@ -4,50 +4,30 @@
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>Document</title>
-		<link rel="stylesheet" type="text/css" href="./index.css" />
 	</head>
 	<body>
 		<div id="app">
 
-			<div class="header">
-				<div class="container">
-					<div class="logo">toDoList</div>
-					<div class="input-area">
-						<input type="text" @input="handleInput" :value="curMask">
-						<button type="button" @click="addMask">添加</button>
-					</div>
-				</div>
-			</div>
-			<div class="container">
-				<h2>
-					<span>正在进行</span>
-					<span class="mask-num"> {{ needDoList.length }}</span>
-				</h2>
-				<ul class="mask-list">
-					<li v-for="(mask,index) in needDoList" :key="mask.id">
-						<div>
-							<input type="checkbox" name="" id="" value="" @change="doCheck(index,'need')" />
-							<span>{{ mask.title }}</span>
-						</div>
-						<button @click="delDolist(index,'need')">删除</button>
-					</li>
-				</ul>
-			</div>
-			<div class="container">
-				<h2>
-					<span>已经完成</span>
-					<span class="mask-num"> {{ completeList.length }}</span>
-				</h2>
-				<ul class="mask-list complete-list">
-					<li v-for="(com,index) in completeList" :key="com.id">
-						<div>
-							<input type="checkbox" name="" id="" value="" @change="doCheck(index,'com')" />
-							<span>{{ com.title }}</span>
-						</div>
-						<button @click="delDolist(index,'com')">删除</button>
-					</li>
-				</ul>
-			</div>
+			<!-- <input type="text" v-model="msg">
+			<input type="checkbox" name="" id="" value="" v-model="checked" /> -->
+			<!-- <input type="checkbox" name="" id="cheng" value="cheng" v-model="checkList" />
+			<label for="cheng">cheng</label>
+			
+			<input type="checkbox" name="" id="deng" value="deng" v-model="checkList" />
+			<label for="deng">deng</label>
+			
+			<input type="checkbox" name="" id="tong" value="tong" v-model="checkList" />
+			<label for="tong">tong</label> -->
+			
+			<!-- <input type="radio" name="" id="cheng" value="cheng" v-model="picked" />
+			<label for="cheng">cheng</label>
+		
+			<input type="radio" name="" id="deng" value="deng" v-model="picked" />
+			<label for="deng">deng</label>
+			
+			<input type="radio" name="" id="tong" value="tong" v-model="picked" />
+			<label for="tong">tong</label> -->
+			<input type="text" name="" id="" value="" v-model.trim="msg" />
 
 		</div>
 		<script src="./vue.js"></script>
@@ -55,40 +35,13 @@
 			const vm = new Vue({
 				el: "#app",
 				data: {
-					curMask: '', //input内的数据
-					needDoList: [],
-					completeList: [],
-
+					msg:'',
+					checked:true,
+					checkList:[],
+					picked : ''
 				},
-				methods: {
-					//获取input输入的内容
-					handleInput(e) {
-						this.curMask = e.target.value;
-					},
-					//点击添加按钮
-					addMask() {
-						if(this.curMask === ''){return}
-						this.needDoList.push({
-							title: this.curMask,
-							id: Math.random()
-						});
-						this.curMask = '';
-
-					},
-					doCheck(index, type) {
-						if (type === 'need') {
-							const data = this.needDoList.splice(index, 1);
-							this.completeList.push(...data);
-						} else {
-							const data = this.completeList.splice(index, 1);
-							this.needDoList.push(...data);
-						}
-
-					},
-					delDolist(index, type) {
-						const toDlist = type === 'need' ? this.needDoList : this.completeList;
-						toDlist.splice(index, 1);
-					}
+				methods:{
+					
 				}
 			})
 		</script>
