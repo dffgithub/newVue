@@ -4,57 +4,41 @@
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>Document</title>
+		<!-- <link rel="stylesheet" href="./index.css"> -->
 	</head>
 	<body>
 		<div id="app">
 
-			<input type="text" name="" id="" value="" v-model.number="num1" />
-			<select v-model="type">
-				<option value="+">+</option>
-				<option value="-">-</option>
-				<option value="*">*</option>
-				<option value="/">/</option>
-			</select>
-			<input type="text" name="" id="" value="" v-model.number="num2" />
-			<button @click="handleClick">=</button>
-			<span> {{ result }} </span>
-
+			{{ msgReverse }}
+			<br>
+			{{ msgReverse_() }}
+			<br>
+			{{ name }}
 		</div>
 		<script src="./vue.js"></script>
 		<script>
 			const vm = new Vue({
-				el: "#app",
-				data: {
-					num1: 0,
-					type: '+',
-					num2: 0,
-					result: 0
+				el: '#app',
+				data:{
+					msg:'你好啊,dff',
+					name:'dff'
 				},
-				methods: {
-					handleClick() {
-						const {
-							type,
-							num1,
-							num2
-						} = this;
-						console.log(type, num1, num2, 222222);
-						switch (type) {
-							case '+':
-								this.result = num1 + num2;
-								break;
-							case '-':
-								this.result = num1 - num2;
-								break;
-							case '*':
-								this.result = num1 * num2;
-								break;
-							case '/':
-								this.result = num1 / num2;
-								break;
-						}
+				methods:{
+					msgReverse_(){
+					
+						return this.msg.split('').reverse().join('');
+					}
+				},
+				computed:{
+					msgReverse:function(){
+						return this.msg.split('').reverse().join('');
 					}
 				}
+
 			})
+
+		
+			
 		</script>
 	</body>
 </html>
