@@ -3,74 +3,76 @@
 	<head>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="stylesheet" href="./index.css">
 		<title>Document</title>
 	</head>
 	<body>
 		<div id="app">
 			
-			{{ msg }}
-			{{ obj }}
+			<div class="logo">
+			      <img src="https://www.baidu.com/img/bd_logo1.png?where=super" title="点击一下，了解更多">
+			    </div>
+			
+			    <div class="search-box">
+			      <span class="search-area">
+			        <input 
+			          type="text"
+			          maxlength="100"
+					  v-model="inputVal"
+					  @focus=" () => inputFocus = true"
+					  @blur=" () => inputFocus = false"
+			        >
+			        <span class="icon icon-paizhao"></span>
+			      </span>
+			      <span class="search-btn">百度一下</span>
+			    </div>
+			
+			    <ul 
+			      class="search-list"
+				  v-show="inputFocus && dataList.length"
+			    >
+			      <li
+					v-for="datas in dataList"
+					:key="datas"
+			      >
+				  {{ datas }}
+			      </li>
+			    </ul>
 
 		</div>
 
 		<script src="./vue.js"></script>
+		<script src="./jquery.js"></script>
 		<script type="text/javascript">
 			const vm = new Vue({
 				el: "#app",
 				data:{
-					msg : 'dff',
-					obj:{
-						name:'dff',
-						age:18
-					}
+					inputFocus:false,
+					inputVal:'',
+					dataList : []
 				},
 				methods:{
-					changeMsg(){
-						console.log('当msg改变时,执行changeMsg()方法');
+					searchRes(res){
+						console.log(res);
+						this.dataList = res.s;
+						this.inputFocus = true
 					}
 				},
 				watch:{
-					// msg(newValue,oldValue){
-					// 	console.log(newValue,oldValue);
-					// 	console.log('msg发生了改变');
-					// },
-					// msg:'changeMsg',
-					// msg : {
-					// 	//handler 当 msg 发生改变会执行的回调函数
-					// 	handler(newValue,oldValue){
-					// 		console.log(newValue,oldValue);
-					// 		console.log('msg改变了');
-					// 	},
+					inputVal(){
+						$.ajax({
+							dataType:'jsonp',
+							url:'https://sp0.baidu.com/5a1Fazu8AA54nxGko9WTAnF6hhy/su',
+							data:{
+								wd:this.inputVal,
+								cb:'vm.searchRes',
+							},
 						
-					// }
-					// obj:{
-					// 	handler(){
-					// 		console.log('obj执行了');
-					// 	},
-					// 	deep:true,
-					// 	immediate:true
-					// }
-					// 'obj.name'(){
-					// 	console.log('name改变了');
-					// }
+						})
+					}
 				}
 			})
-			// vm.$watch('msg',function(){
-			// 	console.log('msg改变了');
-			// },{
-			// 	deep:true,
-			// 	immediate:true
-			// });
-			vm.$watch('obj.name',{
-				handler(){
-					console.log('name改变了');
-				},
-				deep:true,
-				immediate:true
-			})
-			
-			
-			
+		
 		</script>
 	</body>
 </html>
