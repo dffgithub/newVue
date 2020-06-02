@@ -9,68 +9,78 @@
 	<body>
 		<div id="app">
 			
-			<div class="logo">
-			      <img src="https://www.baidu.com/img/bd_logo1.png?where=super" title="点击一下，了解更多">
-			    </div>
-			
-			    <div class="search-box">
-			      <span class="search-area">
-			        <input 
-			          type="text"
-			          maxlength="100"
-					  v-model="inputVal"
-					  @focus=" () => inputFocus = true"
-					  @blur=" () => inputFocus = false"
-			        >
-			        <span class="icon icon-paizhao"></span>
-			      </span>
-			      <span class="search-btn">百度一下</span>
-			    </div>
-			
-			    <ul 
-			      class="search-list"
-				  v-show="inputFocus && dataList.length"
-			    >
-			      <li
-					v-for="datas in dataList"
-					:key="datas"
-			      >
-				  {{ datas }}
-			      </li>
-			    </ul>
-
+			<div class="username">
+				<input type="text" placeholder="用户名" v-model="name">
+			</div>
+			<div class="mail">
+				<input type="text" placeholder="邮箱" v-model="mail">
+			</div>
+			<div class="upload-btn" @click="handelUpload">上传</div>
+			<div class="show-btn" @click="handleJsonp">测试jsonp</div>
+			<div class="show-btn" @click="handelShow">显示任务信息</div>
+			<ul class="person-list" v-if="personList.length">
+				<li class="person" v-for="person in personList">
+					<span>{{ person.name }}</span>
+					<span>{{ person.mail }}</span>
+				</li>
+			</ul>
 		</div>
 
 		<script src="./vue.js"></script>
-		<script src="./jquery.js"></script>
+		<script src="./vue-resource.js"></script>
 		<script type="text/javascript">
 			const vm = new Vue({
 				el: "#app",
 				data:{
-					inputFocus:false,
-					inputVal:'',
-					dataList : []
+					name:'',
+					mail:'',
+					msg:'',
+					personList:[]
 				},
 				methods:{
-					searchRes(res){
-						console.log(res);
-						this.dataList = res.s;
-						this.inputFocus = true
+					handelUpload(){
+						this.$http.post('https://developer.duyiedu.com/vue/setUserInfo',{
+							name:this.name,
+							mail:this.mail
+						}).then(res=>{
+							this.msg = res.body.msg;
+						}).catch(error => {
+							console.log(error);
+							this.msg = error.body.msg;
+						})
+					},
+					handelShow(){
+						// this.$http.get('https://developer.duyiedu.com/vue/getUserInfo').then(res=>{
+						// 	this.personList = res.body.data;
+						// })
+						this.$http.get('https://developer.duyiedu.com/vue/getUserInfo').then(res=>{
+							console.log(res.json(),111111111);
+							return res.json();
+						}).then(res => {
+							console.log(res);
+						})
+					},
+					handleJsonp(){
+						this.$http.jsonp('https://sp0.baidu.com/5a1Fazu8AA54nxGko9WTAnF6hhy/su',{
+							params:{
+								wd:this.name
+							},
+							jsonp:'cb'
+						}).then(res=>{
+							console.log(res,111);
+						})
 					}
 				},
 				watch:{
-					inputVal(){
-						$.ajax({
-							dataType:'jsonp',
-							url:'https://sp0.baidu.com/5a1Fazu8AA54nxGko9WTAnF6hhy/su',
-							data:{
-								wd:this.inputVal,
-								cb:'vm.searchRes',
-							},
-						
-						})
+					msg(){
+						if(this.msg === ''){
+							return
+						}
+						alert(this.msg);
+						this.msg = '';
 					}
 				}
+				
 			})
 		
 		</script>
