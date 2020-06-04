@@ -9,59 +9,20 @@
 	<body>
 		<div id="app">
 
-			<div class="username">
-				<input type="text" placeholder="用户名" v-model="name">
-			</div>
-			<div class="mail">
-				<input type="text" placeholder="邮箱" v-model="mail">
-			</div>
-			<div class="upload-btn" @click="handelUpload">上传</div>
-			<div class="show-btn" @click="handelShow">显示任务信息</div>
-			<ul class="person-list" v-if="personList.length">
-				<li class="person" v-for="person in personList">
-					<span>{{ person.name }}</span>
-					<span>{{ person.mail }}</span>
-				</li>
-			</ul>
+			
+			
 		</div>
-		<script src="./axios.js"></script>
+	
 		<script src="./vue.js"></script>
 		<script type="text/javascript">
-			axios.defaults.baseURL = 'https://developer.duyiedu.com/vue';
-			axios.interceptors.request.use(config=>{
-				if(config.method === 'get'){
-					config.url = '/getUserInfo';
-				} else if (config.method === 'post'){
-					config.url = '/setUserInfo';
-				}
-				return config;
-			});
-			axios.interceptors.response.use(response=>{
-				console.log(response,222);
-				return response.data;
-			})
+			
 			
 			const vm = new Vue({
 				el: "#app",
 				data: {
-					name: '',
-					mail: '',
-					msg: '',
-					personList: []
+					
 				},
-				methods: {
-					handelUpload() {
-						axios.post('/getUserInfo').then(res=>{
-							console.log(res);
-						})
-					},
-					handelShow() {
-						axios.get('/getUserInfo').then(res=>{
-							console.log(res);
-						})
-					}
-				},
-				
+			
 
 			})
 		</script>
