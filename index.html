@@ -9,39 +9,64 @@
 	</head>
 	<body>
 		<div id="app">
-			<shanshan-cmp></shanshan-cmp>
-			<shanshan-cmp-1></shanshan-cmp-1>
-			<shanshan-cmp-2></shanshan-cmp-2>
+			
+			<video-list :video-list="videoList"></video-list>
+			
+			
 		</div>
-		<div id="app1">
-			<shanshan-cmp></shanshan-cmp>
-		</div>
+
+
+
 		<script src="./vue.js"></script>
 		<script src="./axios.js"></script>
 		<script type="text/javascript">
-			Vue.component('shanshan-cmp', {
+			Vue.component('video-list',{
+				props:['videoList'],
+				template:`
+					<div class="video-list">
+						<video-item
+							v-for="video in videoList" :key="video.id"
+							v-bind="video"
+						>
+						</video-item>
+					</div>
+				`
+			})
+			Vue.component('video-item', {
+				props:['poster','play','rank','title'],
 				template: `
-							<div>haha</div>
-						`
+					<div class="video-item">
+						<div class="poster">
+							<img :src="poster" alt="">
+							<div class="info">
+								<div class="play">{{ play }}</div>
+								<div class="rank">{{ rank }}</div>
+							</div>
+						</div>
+						<div class="title">{{ title }}</div>
+						
+					</div>
+				`
 			})
 			const vm = new Vue({
 				el: '#app',
-				components:{
-					'shanshan-cmp-1':{
-						template:`
-							<div>嘿嘿我是shanshan-cmp-1</div>
-						`
-					},
-					'shanshan-cmp-2':{
-						template:`
-							<div>嘿嘿我是shanshan-cmp-2</div>
-						`
-					}
+				data:{
+					videoList:[]
+				},
+				created(){
+					axios.get('https://developer.duyiedu.com/vue/bz/video',{
+						params:{
+							start:0,
+							offset:12
+						}
+						
+					}).then(res =>{
+						if(res.status === 200){
+							this.videoList = res.data.data;
+						}
+					})
 				}
 
-			})
-			const vm1 = new Vue({
-				el:'#app1'
 			})
 		</script>
 	</body>
