@@ -3,16 +3,15 @@
 	<head>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<link rel="stylesheet" href="./assets/reset.css">
-		<link rel="stylesheet" href="./assets/index.css">
+		<!-- <link rel="stylesheet" href="./assets/reset.css"> -->
+		<!-- <link rel="stylesheet" href="./assets/index.css"> -->
 		<title>Document</title>
 	</head>
 	<body>
 		<div id="app">
-			
-			<video-list :video-list="videoList"></video-list>
-			
-			
+
+			<my-cmp :list="list"></my-cmp>
+
 		</div>
 
 
@@ -20,53 +19,39 @@
 		<script src="./vue.js"></script>
 		<script src="./axios.js"></script>
 		<script type="text/javascript">
-			Vue.component('video-list',{
-				props:['videoList'],
-				template:`
-					<div class="video-list">
-						<video-item
-							v-for="video in videoList" :key="video.id"
-							v-bind="video"
-						>
-						</video-item>
-					</div>
-				`
-			})
-			Vue.component('video-item', {
-				props:['poster','play','rank','title'],
+			Vue.component('my-cmp', {
+				props: {
+					list: {
+						type: Array,
+						default () {
+							return [{
+									name: 'xx'
+								},
+								{
+									name: 'zzz'
+								}
+							]
+						},
+						required : true
+					}
+				},
 				template: `
-					<div class="video-item">
-						<div class="poster">
-							<img :src="poster" alt="">
-							<div class="info">
-								<div class="play">{{ play }}</div>
-								<div class="rank">{{ rank }}</div>
-							</div>
-						</div>
-						<div class="title">{{ title }}</div>
-						
-					</div>
+					<ul>
+						<li v-for="item in list" :key="item.name">{{ item.name }}</li>
+					</ul>
 				`
 			})
 			const vm = new Vue({
 				el: '#app',
-				data:{
-					videoList:[]
-				},
-				created(){
-					axios.get('https://developer.duyiedu.com/vue/bz/video',{
-						params:{
-							start:0,
-							offset:12
+				data: {
+					list: [{
+							name: 'dff1'
+						},
+						{
+							name: 'dff2'
 						}
-						
-					}).then(res =>{
-						if(res.status === 200){
-							this.videoList = res.data.data;
-						}
-					})
+					],
 				}
-
 			})
 		</script>
 	</body>
