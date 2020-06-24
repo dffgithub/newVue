@@ -3,54 +3,73 @@
 	<head>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<!-- <link rel="stylesheet" href="./assets/reset.css"> -->
-		<!-- <link rel="stylesheet" href="./assets/index.css"> -->
+
 		<title>Document</title>
 	</head>
 	<body>
 		<div id="app">
-
-			<my-cmp :list="list"></my-cmp>
-
+			<!-- <div :style="{ fontSize: listFontSize + 'em'}">
+				<my-cmp
+				v-for="item in list"
+				:item="item"
+				:key="item.id"
+				@click.native="listFontSize += 0.1"
+				>
+				</my-cmp>
+			</div> -->
+			<!-- <base-input @focus="onFocus" @blur="onBlur"></base-input> -->
+			<base-input1 v-model="name"></base-input1>
 		</div>
 
 
-
 		<script src="./vue.js"></script>
-		<script src="./axios.js"></script>
 		<script type="text/javascript">
+			Vue.component('base-input1',{
+				props:{
+					value:String,
+				},
+				template:`
+					<label>
+						姓名:
+						<input type="text" :value="value" />
+					</label>
+				`
+			})
 			Vue.component('my-cmp', {
-				props: {
-					list: {
-						type: Array,
-						default () {
-							return [{
-									name: 'xx'
-								},
-								{
-									name: 'zzz'
-								}
-							]
-						},
-						required : true
-					}
+				props:{
+					item:Object
 				},
 				template: `
-					<ul>
-						<li v-for="item in list" :key="item.name">{{ item.name }}</li>
-					</ul>
+					<div>
+						<h3>{{item.name}}</h3>
+						<button @click="$emit('ellarge-text',0.2)">放大字号</button>
+						<div>{{ item.content }}</div>
+					</div>
 				`
 			})
 			const vm = new Vue({
 				el: '#app',
 				data: {
-					list: [{
-							name: 'dff1'
-						},
-						{
-							name: 'dff2'
-						}
+					listFontSize:1,
+					list:[
+						{name:'dff1',content:'内容1',id:1},
+						{name:'dff2',content:'内容2',id:2},
+						{name:'dff3',content:'内容3',id:3},
+						{name:'dff4',content:'内容4',id:4}
 					],
+					name:'dff'
+				},
+				methods:{
+					onLangeText(num){
+						console.log(num);
+						this.listFontSize += num;
+					},
+					onFocus() {
+						console.log('focus');
+					},
+					onBlur(){
+						console.log('blur');
+					}
 				}
 			})
 		</script>
